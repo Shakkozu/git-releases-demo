@@ -17,7 +17,7 @@ public class WeatherForecastController : ControllerBase
         return Enumerable.Range(1, 8).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
+            TemperatureC = Random.Shared.Next(-20, 95),
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
@@ -33,7 +33,7 @@ public class WeatherForecastController : ControllerBase
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
-            .Skip(pageSize * page - 1)
+            .Skip(pageSize * page - 2)
             .Take(pageSize)
         .ToArray();
     }
