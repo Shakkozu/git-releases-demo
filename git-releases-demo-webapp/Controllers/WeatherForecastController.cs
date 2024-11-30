@@ -12,6 +12,7 @@ public class WeatherForecastController : ControllerBase
     };
 
     private const int _maxTempC = 60;
+    private const int _minTempC = -50;
 
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
@@ -19,7 +20,7 @@ public class WeatherForecastController : ControllerBase
         return Enumerable.Range(1, 8).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, _maxTempC),
+            TemperatureC = Random.Shared.Next(_minTempC, _maxTempC),
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
@@ -32,7 +33,7 @@ public class WeatherForecastController : ControllerBase
         return Enumerable.Range(1, 200).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, _maxTempC),
+            TemperatureC = Random.Shared.Next(_minTempC, _maxTempC),
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
             .Skip(pageSize * page - 2)
