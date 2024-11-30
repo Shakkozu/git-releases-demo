@@ -1,14 +1,13 @@
 name: Release Drafter
 
 on:
-  push:
-    # branches to consider in the event; optional, defaults to all
-    branches:
-      - master
-  # pull_request event is required only for autolabeler
+  # push:
+  #   # branches to consider in the event; optional, defaults to all
+  #   branches:
+  #     - master
+  # # pull_request event is required only for autolabeler
   pull_request:
     branches:
-      - master
       - release/**
     # Only following types are handled by the action, but one can default to all as well
     types: [opened, reopened, synchronize]
@@ -28,7 +27,16 @@ jobs:
       # otherwise, read permission is required at least
       pull-requests: write
     runs-on: ubuntu-latest
+    
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract version from branch name
+        id: extract-version
+        run: |
+          echo "branch_name=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
+          echo "version=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
       # (Optional) GitHub Enterprise requires GHE_HOST variable set
       #- name: Set GHE_HOST
       #  run: |
