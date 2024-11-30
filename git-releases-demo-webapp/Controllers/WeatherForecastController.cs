@@ -6,10 +6,10 @@ namespace git_releases_demo_webapp.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries =
-    [
-        "Freezing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "test"
-    ];
+    private static readonly string[] Summaries = new[]
+    {
+        "Freezingy", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "test"
+    };
 
     private const int _maxTempC = 60;
     private const int _minTempC = -50;
