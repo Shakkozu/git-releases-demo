@@ -45,12 +45,13 @@ jobs:
     - name: Show version in logs
       run: echo "Version: ${{ env.version }}"
 
+    - name: "generate release notes"
       # Drafts your next Release notes as Pull Requests are merged into "master"
-      - uses: release-drafter/release-drafter@v6
+      uses: release-drafter/release-drafter@v6
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
-        with:
-          config-name: release-drafter-config.yml
-          version: ${{ env.version }}
+      with:
+        config-name: release-drafter-config.yml
+        version: ${{ env.version }}
         #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
