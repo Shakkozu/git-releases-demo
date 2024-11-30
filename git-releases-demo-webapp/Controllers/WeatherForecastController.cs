@@ -33,7 +33,7 @@ public class WeatherForecastController : ControllerBase
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
-            .Skip(pageSize * page - 1)
+            .Skip(pageSize * page - 2)
             .Take(pageSize)
         .ToArray();
     }
