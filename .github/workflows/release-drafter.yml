@@ -3,7 +3,7 @@ name: Release Drafter
 on:
   push:
     branches:
-      - 'release/*' # Wszystkie gałęzie zaczynające się od "release/"
+      - 'release/**' # Wszystkie gałęzie zaczynające się od "release/"
 
 jobs:
   draft-release:
