@@ -27,7 +27,7 @@ public class WeatherForecastController : ControllerBase
     public IEnumerable<WeatherForecast> GetLargerSet(int page)
     {
         int pageSize = 10;
-        return Enumerable.Range(1, 50).Select(index => new WeatherForecast
+        return Enumerable.Range(1, 100).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
