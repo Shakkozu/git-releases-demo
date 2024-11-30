@@ -1,25 +1,12 @@
 name: Release Drafter
 
 on:
-  # push:
-  #   # branches to consider in the event; optional, defaults to all
-  #   branches:
-  #     - master
-  # # pull_request event is required only for autolabeler
-  pull_request:
+  push:
     branches:
-      - release/**
-    # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
-  # pull_request_target event is required for autolabeler to support PRs from forks
-  # pull_request_target:
-  #   types: [opened, reopened, synchronize]
-
-permissions:
-  contents: read
+      - 'release/*' # Wszystkie gałęzie zaczynające się od "release/"
 
 jobs:
-  update_release_draft:
+  draft-release:
     permissions:
       # write permission is required to create a github release
       contents: write
@@ -27,7 +14,7 @@ jobs:
       # otherwise, read permission is required at least
       pull-requests: write
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -35,18 +22,21 @@ jobs:
       - name: Extract version from branch name
         id: extract-version
         run: |
-          echo "branch_name=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
-          echo "version=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
-      # (Optional) GitHub Enterprise requires GHE_HOST variable set
-      #- name: Set GHE_HOST
-      #  run: |
-      #    echo "GHE_HOST=${GITHUB_SERVER_URL##https:\/\/}" >> $GITHUB_ENV
+          # extract version from release branch name
+          VERSION=${GITHUB_REF#refs/heads/release/}
+          echo "Extracted version: $VERSION" # Zapis do logów
+          echo "::set-output name=version::$VERSION"
+        outputs:
+          version: ${{ steps.extract-version.outputs.version }}
 
-      # Drafts your next Release notes as Pull Requests are merged into "master"
-      - uses: release-drafter/release-drafter@v6
-        # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
+      - name: Log extracted version
+        run: |
+          echo "Running release drafter for version: ${{ steps.extract-version.outputs.version }}"
+
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v6
         with:
+          version: ${{ steps.extract-version.outputs.version }} # Przekaż wersję
           config-name: release-drafter-config.yml
-        #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
