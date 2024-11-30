@@ -1,0 +1,37 @@
+name-template: "Wersja v$NEXT_PATCH_VERSION"
+tag-template: "v$NEXT_PATCH_VERSION"
+categories:
+  - title: 🚀 Nowe funkcje
+    labels:
+      - feature
+      - feat
+  - title: 🐛 Poprawki błędów
+    labels:
+      - fix
+  - title: 🛠️ Refaktoryzacja i optymalizacja
+    labels:
+      - refactor
+      - optimization
+  - title: 📝 Dokumentacja
+    labels:
+      - docs
+  - title: ⚙️ Konfiguracja
+    labels:
+      - config
+      - ci
+
+change-title-escapes: true
+template: |
+  ## ✨ Nowości
+  $CHANGES
+  
+  ## 📋 Szczegóły wydania
+  **Tag:** `$NEXT_PATCH_VERSION`  
+  **Commit:** `$COMMITISH`  
+
+  ## 🚀 Jak zainstalować / używać?
+  - Upewnij się, że Twój system jest zaktualizowany
+  - Skorzystaj z odpowiednich instrukcji w dokumentacji
+
+  ---
+  **Wygenerowano automatycznie z pomocą [Release Drafter](https://github.com/release-drafter/release-drafter).**
