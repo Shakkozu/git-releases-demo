@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - 'release/**' # Wszystkie gałęzie zaczynające się od "release/"
+  pull_request:
+    branches:
+      - master
 
 jobs:
   draft-release:
