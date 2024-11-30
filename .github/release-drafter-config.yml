@@ -20,7 +20,7 @@ categories:
       - config
       - ci
 
-change-title-escapes: true
+change-title-escapes: '\<*_&'
 template: |
   ## ✨ Nowości
   $CHANGES
