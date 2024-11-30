@@ -33,24 +33,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Extract branch
+       name run: | BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/}) VERSION=$(echo $BRANCH_NAME | sed 's/^release\///') echo "version=$VERSION" >> $GITHUB_ENV - name: Show version in logs run: echo
 
-      - name: Extract version from branch name
-        id: extract-version
-        run: |
-          echo "branch_name=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
-          echo "version=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
-          echo "$version"
-      # (Optional) GitHub Enterprise requires GHE_HOST variable set
-      #- name: Set GHE_HOST
-      #  run: |
-      #    echo "GHE_HOST=${GITHUB_SERVER_URL##https:\/\/}" >> $GITHUB_ENV
+    - name: Extract branch name
+      run: |
+        BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})
+        VERSION=$(echo $BRANCH_NAME | sed 's/^release\///')
+        echo "version=$VERSION" >> $GITHUB_ENV
+
+    - name: Show version in logs
+      run: echo "Version: ${{ env.version }}"
 
       # Drafts your next Release notes as Pull Requests are merged into "master"
       - uses: release-drafter/release-drafter@v6
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         with:
           config-name: release-drafter-config.yml
-          version: $version
+          version: ${{ env.version }}
         #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
