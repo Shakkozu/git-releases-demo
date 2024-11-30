@@ -24,8 +24,9 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet("larger-set", Name = "Get Large Set Weather Forecast")]
-    public IEnumerable<WeatherForecast> GetLargerSet(int pageSize, int page)
+    public IEnumerable<WeatherForecast> GetLargerSet(int page)
     {
+        int pageSize = 10;
         return Enumerable.Range(1, 50).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
