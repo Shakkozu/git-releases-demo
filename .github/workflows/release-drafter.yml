@@ -39,11 +39,9 @@ jobs:
           BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})
           VERSION=$(echo $BRANCH_NAME | sed 's/^release\///')
           echo "version=$VERSION" >> $GITHUB_ENV
+          echo "Version: ${{ env.version }}"
 
-      - name: Show version in logs
-        run: echo "Version: ${{ env.version }}"
-
-      - name: "generate release notes"
+      - name: generate release notes
         # Drafts your next Release notes as Pull Requests are merged into "master"
         uses: release-drafter/release-drafter@v6
           # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
