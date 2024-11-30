@@ -4,3 +4,8 @@ GET {{git_releases_demo_webapp_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{git_releases_demo_webapp_HostAddress}}/weatherforecast/larger-set
+Accept: application/json
+
+###
