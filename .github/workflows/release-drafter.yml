@@ -1,14 +1,16 @@
 name: Release Drafter
 
 on:
-  # push:
-  #   # branches to consider in the event; optional, defaults to all
-  #   branches:
-  #     - master
+  push:
+    # branches to consider in the event; optional, defaults to all
+    branches:
+      - master
+      - release/**
   # # pull_request event is required only for autolabeler
   pull_request:
     branches:
       - release/**
+      - master
     # Only following types are handled by the action, but one can default to all as well
     types: [opened, reopened, synchronize]
   # pull_request_target event is required for autolabeler to support PRs from forks
@@ -37,6 +39,7 @@ jobs:
         run: |
           echo "branch_name=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
           echo "version=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
+          echo "$version"
       # (Optional) GitHub Enterprise requires GHE_HOST variable set
       #- name: Set GHE_HOST
       #  run: |
@@ -47,6 +50,7 @@ jobs:
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         with:
           config-name: release-drafter-config.yml
+          version: $version
         #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
