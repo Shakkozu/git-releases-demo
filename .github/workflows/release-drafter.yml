@@ -32,28 +32,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Extract branch name
+      - name: Extract branch name and version
+        id: extract_version
         run: |
-      #    echo "GHE_HOST=${GITHUB_SERVER_URL##https:\/\/}" >> $GITHUB_ENV
+          # Wyciągnij pełną nazwę gałęzi z GITHUB_REF
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "branch name: $BRANCH_NAME"
 
           # Wyciągnij numer wersji z gałęzi w formacie release/XYZ
           if [[ "$BRANCH_NAME" =~ ^release/(.+)$ ]]; then
             VERSION="${BASH_REMATCH[1]}"
           else
             echo "Branch name does not match expected format 'release/*'"
-            exit 0
+            exit 1
           fi
 
           echo "Extracted version: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_ENV
           echo "::set-output name=version::$VERSION"
 
-      - name: generate release notes
-        # Drafts your next Release notes as Pull Requests are merged into "master"
+      - name: Generate release notes
         uses: release-drafter/release-drafter@v6
-          # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         with:
-          version: ${{ steps.extract-version.outputs.version }}
           config-name: release-drafter-config.yml
+          version: ${{ steps.extract_version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
