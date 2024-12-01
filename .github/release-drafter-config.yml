@@ -1,5 +1,5 @@
-name-template: 'v$RESOLVED_VERSION 🌈'
-tag-template: 'v$RESOLVED_VERSION'
+name-template: "Wersja $VERSION"
+tag-template: "v$VERSION"
 categories:
   - title: '🚀 Features'
     labels:
@@ -8,6 +8,7 @@ categories:
   - title: '🐛 Bug Fixes'
     labels:
       - 'fix'
+      - 'hotfix'
       - 'bugfix'
       - 'bug'
   - title: '🧰 Maintenance'
@@ -28,6 +29,8 @@ autolabeler:
   - label: 'enhancement'
     branch:
       - '/feature\/.+/'
+    body:
+      - '/JIRA-[0-9]{1,4}/'
 version-resolver:
   major:
     labels:
