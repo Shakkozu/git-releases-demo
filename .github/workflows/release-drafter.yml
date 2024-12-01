@@ -27,7 +27,7 @@ jobs:
       # otherwise, read permission is required at least
       pull-requests: write
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -52,11 +52,12 @@ jobs:
 
       - name: generate release notes
         # Drafts your next Release notes as Pull Requests are merged into "master"
-        uses: release-drafter/release-drafter@v6
+        uses:
+          release-drafter/release-drafter@v6
           # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         with:
           config-name: release-drafter-config.yml
-          version: ${{ steps.extract_version.outputs.version }}
+          # version: ${{ steps.extract_version.outputs.version }}
           #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
