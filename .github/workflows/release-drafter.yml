@@ -41,7 +41,7 @@ jobs:
             echo "PR target branch (base branch): $BASE_BRANCH"
           else
             # W przeciwnym razie bierz branch, na którym są zmiany
-            BASE_BRANCH="${GITHUB_REF#refs/heads/}"
+            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
             echo "Branch: $BASE_BRANCH"
           fi
 
