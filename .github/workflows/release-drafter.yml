@@ -54,6 +54,6 @@ jobs:
         uses: release-drafter/release-drafter@v6
         with:
           config-name: release-drafter-config.yml
-          version: ${{ steps.extract_version.outputs.version }}
+          # version: ${{ steps.extract_version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
