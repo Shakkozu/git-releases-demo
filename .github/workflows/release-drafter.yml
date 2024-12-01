@@ -37,7 +37,7 @@ jobs:
           # Sprawdź, czy workflow jest uruchomiony w kontekście PR
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
             # Jeśli to PR, to podstawowy branch to target PR (base branch)
-            BASE_BRANCH="${GITHUB_EVENT_PULL_REQUEST_BASE_REF}"
+            BASE_BRANCH="${github.base_ref}"
             echo "PR target branch (base branch): $BASE_BRANCH"
           else
             # W przeciwnym razie bierz branch, na którym są zmiany
@@ -51,7 +51,7 @@ jobs:
             echo "Extracted version from branch: $VERSION"
           else
             echo "Branch name does not match expected format 'release/*'"
-            exit 1
+            exit 0
           fi
 
           echo "version=$VERSION" >> $GITHUB_ENV
