@@ -5,6 +5,11 @@ on:
     # branches to consider in the event; optional, defaults to all
     branches:
       - release/**
+  pull_request:
+    branches:
+      - release/**
+    # Only following types are handled by the action, but one can default to all as well
+    types: [opened, reopened, synchronize]
     # Only following types are handled by the action, but one can default to all as well
   # pull_request_target event is required for autolabeler to support PRs from forks
   # pull_request_target:
@@ -38,7 +43,7 @@ jobs:
             VERSION="${BASH_REMATCH[1]}"
           else
             echo "Branch name does not match expected format 'release/*'"
-            exit 1
+            exit 0
           fi
 
           echo "Extracted version: $VERSION"
