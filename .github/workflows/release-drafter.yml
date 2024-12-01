@@ -36,11 +36,20 @@ jobs:
 
       - name: Extract branch name
         run: |
-          BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})
-          echo "branch name: ${GITHUB_REF#refs/heads/}"
-          VERSION=$(echo $BRANCH_NAME | sed -n 's/^release\///p')
+          # Wyciągnij pełną nazwę gałęzi z GITHUB_REF
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "branch name: $BRANCH_NAME"
+
+          # Wyciągnij numer wersji z gałęzi w formacie release/XYZ
+          if [[ "$BRANCH_NAME" =~ ^release/(.+)$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+          else
+            echo "Branch name does not match expected format 'release/*'"
+            exit 1
+          fi
+
+          echo "Extracted version: $VERSION"
           echo "version=$VERSION" >> $GITHUB_ENV
-          echo "Version: ${{ env.version }}"
 
       - name: generate release notes
         # Drafts your next Release notes as Pull Requests are merged into "master"
