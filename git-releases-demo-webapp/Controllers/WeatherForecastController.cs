@@ -10,6 +10,7 @@ public class WeatherForecastController : ControllerBase
     {
         "Freezing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
+    
 
     private const int _maxTempC = 62;
     private const int _minTempC = -55;
