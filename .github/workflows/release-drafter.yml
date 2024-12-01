@@ -9,7 +9,7 @@ on:
     branches:
       - release/**
     # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
+    # types: [opened, reopened, synchronize]
     # Only following types are handled by the action, but one can default to all as well
   # pull_request_target event is required for autolabeler to support PRs from forks
   # pull_request_target:
