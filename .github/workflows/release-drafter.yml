@@ -2,24 +2,17 @@ name: Release Drafter
 
 on:
   push:
-    # branches to consider in the event; optional, defaults to all
     branches:
       - release/**
   pull_request:
     branches:
       - release/**
-    # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
-    # Only following types are handled by the action, but one can default to all as well
-  # pull_request_target event is required for autolabeler to support PRs from forks
-  # pull_request_target:
-  #   types: [opened, reopened, synchronize]
 
 permissions:
   contents: read
 
 jobs:
-  update_release_draft:
+  draft-release:
     permissions:
       # write permission is required to create a github release
       contents: write
@@ -32,21 +25,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Extract branch name
+      - name: Extract branch name and version
         run: |
-          # Wyciągnij pełną nazwę gałęzi z GITHUB_REF
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          echo "branch name: $BRANCH_NAME"
+          # Sprawdź, czy workflow jest uruchomiony w kontekście PR
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            # Jeśli to PR, to podstawowy branch to target PR (base branch)
+            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+            echo "PR target branch (base branch): $BASE_BRANCH"
+          else
+            # W przeciwnym razie bierz branch, na którym są zmiany
+            BASE_BRANCH="${GITHUB_REF#refs/heads/}"
+            echo "Branch: $BASE_BRANCH"
+          fi
 
-          # Wyciągnij numer wersji z gałęzi w formacie release/XYZ
-          if [[ "$BRANCH_NAME" =~ ^release/(.+)$ ]]; then
+          # Wyciągnij wersję z nazwy gałęzi w formacie release/XYZ
+          if [[ "$BASE_BRANCH" =~ ^release/(.+)$ ]]; then
             VERSION="${BASH_REMATCH[1]}"
+            echo "Extracted version from branch: $VERSION"
           else
             echo "Branch name does not match expected format 'release/*'"
             exit 0
           fi
 
-          echo "Extracted version: $VERSION"
           echo "version=$VERSION" >> $GITHUB_ENV
           echo "::set-output name=version::$VERSION"
 
