@@ -37,11 +37,11 @@ jobs:
           # Sprawdź, czy workflow jest uruchomiony w kontekście PR
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
             # Jeśli to PR, to podstawowy branch to target PR (base branch)
-            BASE_BRANCH="${github.base_ref}"
+            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
             echo "PR target branch (base branch): $BASE_BRANCH"
           else
             # W przeciwnym razie bierz branch, na którym są zmiany
-            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+            BASE_BRANCH="${GITHUB_REF#refs/heads/}"
             echo "Branch: $BASE_BRANCH"
           fi
 
